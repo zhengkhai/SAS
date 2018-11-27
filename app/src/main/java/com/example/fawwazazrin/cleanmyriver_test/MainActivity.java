@@ -1,12 +1,17 @@
 package com.example.fawwazazrin.cleanmyriver_test;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,8 +26,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                long currentTime = System.currentTimeMillis();
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+                String fileName = "MY_APP_" + currentTime+ ".jpg";
+
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivity(intent);
+                File photo = new File(Environment.getExternalStorageDirectory(),fileName);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+
+                startActivityForResult(intent,1);
 
 
             }
