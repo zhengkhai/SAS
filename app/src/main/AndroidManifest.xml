@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fawwazazrin.cleanmyriver_test">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-feature
@@ -37,6 +39,10 @@
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about" />
+
+        <activity
+            android:name=".ImageViewerActivity"
+            android:label="ImageViewerActivity" />
 
     </application>
 

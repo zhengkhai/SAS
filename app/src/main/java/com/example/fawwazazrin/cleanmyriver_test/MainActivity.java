@@ -1,12 +1,28 @@
 package com.example.fawwazazrin.cleanmyriver_test;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,10 +36,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                Intent intent = new Intent(MainActivity.this, ImageViewerActivity.class);
                 startActivity(intent);
-
 
             }
         });
@@ -56,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
+
+
+
 
 
 }
