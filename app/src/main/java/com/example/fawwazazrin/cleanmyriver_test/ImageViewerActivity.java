@@ -8,14 +8,19 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
 
 public class ImageViewerActivity extends AppCompatActivity {
 
@@ -24,6 +29,7 @@ public class ImageViewerActivity extends AppCompatActivity {
     private TextView coordinates;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    //private long currentTime;
 
 
     @Override
@@ -71,11 +77,15 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     public void onLaunchCamera() {
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        //currentTime = System.currentTimeMillis();
+        //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        //StrictMode.setVmPolicy(builder.build());
+        //String fileName = "MY_APP" + currentTime + ".jpg";
 
-        //output = new File(dir, "CameraContentDemo.jpeg");
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //File dir = new File(Environment.getExternalStorageDirectory(), fileName);
+        //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(dir));
+
         startActivityForResult(intent, REQUEST_CODE);
 
     }
