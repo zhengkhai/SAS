@@ -17,10 +17,16 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImageViewerActivity extends AppCompatActivity {
 
@@ -29,6 +35,12 @@ public class ImageViewerActivity extends AppCompatActivity {
     private TextView coordinates;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private Button uploadButton;
+    private DatabaseReference mDatabase;
+    private double loclong;
+    private double loclad;
+
+
     //private long currentTime;
 
 
@@ -38,11 +50,15 @@ public class ImageViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_imageviewer);
         onLaunchCamera();
         coordinates = (TextView) findViewById(R.id.coordinates);
+        uploadButton = (Button) findViewById(R.id.upload);
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                coordinates.append("\n " + location.getLatitude() + " " + location.getLongitude());
+                loclong = location.getLongitude();
+                loclad = location.getLatitude();
+                coordinates.append("\n " + loclad + " " + loclong);
             }
 
             @Override
@@ -62,6 +78,7 @@ public class ImageViewerActivity extends AppCompatActivity {
             }
         };
 
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED&&checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(new String[]
@@ -73,6 +90,27 @@ public class ImageViewerActivity extends AppCompatActivity {
                 locationFind();
             }
         }
+
+        uploadButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                mDatabase = FirebaseDatabase.getInstance().getReference();
+                Map locMap = new HashMap();
+                locMap.put("loc_longtitude", loclong);
+                locMap.put("loc_laditude", loclad);
+                Map userMap = new HashMap();
+                userMap.put("Name", "Kajang River");
+                userMap.put("RGB_red", 1.253);
+                userMap.put("RGB_blue", 0.253);
+                userMap.put("RGB_green", 3.2);
+                userMap.putAll(locMap);
+                String key = mDatabase.push().getKey(); // generate id for infomations uploaded
+                mDatabase.push().setValue(userMap);
+
+
+            }
+
+        });
     }
 
     public void onLaunchCamera() {
