@@ -16,6 +16,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.lang.Character.isUpperCase;
+
 public class ImageViewerActivity extends AppCompatActivity {
 
     public int REQUEST_CODE = 20;
@@ -39,9 +42,9 @@ public class ImageViewerActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private double loclong;
     private double loclad;
-
-
-    //private long currentTime;
+    private String manufacturer;
+    private String model;
+    private static String TAG = "MyActivity";
 
 
     @Override
@@ -53,6 +56,7 @@ public class ImageViewerActivity extends AppCompatActivity {
         uploadButton = (Button) findViewById(R.id.upload);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -91,22 +95,12 @@ public class ImageViewerActivity extends AppCompatActivity {
             }
         }
 
+
         uploadButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                mDatabase = FirebaseDatabase.getInstance().getReference();
-                Map locMap = new HashMap();
-                locMap.put("loc_longtitude", loclong);
-                locMap.put("loc_laditude", loclad);
-                Map userMap = new HashMap();
-                userMap.put("Name", "Kajang River");
-                userMap.put("RGB_red", 1.253);
-                userMap.put("RGB_blue", 0.253);
-                userMap.put("RGB_green", 3.2);
-                userMap.putAll(locMap);
-                String key = mDatabase.push().getKey(); // generate id for infomations uploaded
-                mDatabase.push().setValue(userMap);
-
+                Intent intent = new Intent(ImageViewerActivity.this, MainActivity.class);
+                startActivity(intent);
 
             }
 
@@ -128,6 +122,13 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     }
 
+    public void getPhoneModel() {
+
+        manufacturer = Build.MANUFACTURER;
+        model = Build.MODEL;
+        Log.i(TAG, "Phone model: " + manufacturer + " " + model);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -136,6 +137,9 @@ public class ImageViewerActivity extends AppCompatActivity {
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
                 imageView = findViewById(R.id.imageView);
                 imageView.setImageBitmap(photo);
+                getPhoneModel();
+                pushDatabase();
+                
             }
         }
     }
@@ -153,6 +157,24 @@ public class ImageViewerActivity extends AppCompatActivity {
     private void locationFind() {
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0, locationListener);
             }
+
+    public void pushDatabase() {
+        Log.i(TAG, "Function working");
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        Map locMap = new HashMap();
+        locMap.put("loc_longtitude", loclong);
+        locMap.put("loc_laditude", loclad);
+        Map userMap = new HashMap();
+        userMap.put("Name", "Kajang River");
+        //userMap.put("RGB_red", 1.253);
+        //userMap.put("RGB_blue", 0.253);
+        //userMap.put("RGB_green", 3.2);
+        userMap.put("Manufacturer", manufacturer);
+        userMap.put("Model", model);
+        userMap.putAll(locMap);
+        String key = mDatabase.push().getKey(); // generate id for information uploaded
+        mDatabase.push().setValue(userMap);
+    }
 
     }
 
