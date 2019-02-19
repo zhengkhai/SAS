@@ -1,9 +1,12 @@
 package com.example.fawwazazrin.cleanmyriver_test;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -15,6 +18,8 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.provider.Telephony;
+import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +29,14 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static java.lang.Character.isUpperCase;
@@ -36,6 +46,7 @@ public class ImageViewerActivity extends AppCompatActivity {
     public int REQUEST_CODE = 20;
     public ImageView imageView;
     private TextView coordinates;
+    private TextView addressText;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Button uploadButton;
@@ -45,6 +56,11 @@ public class ImageViewerActivity extends AppCompatActivity {
     private String manufacturer;
     private String model;
     private static String TAG = "MyActivity";
+    private Uri filePath;
+    private static Bitmap b;
+    private static String finaladdress;
+    FirebaseStorage storage;
+    StorageReference storageReference;
 
 
     @Override
@@ -53,7 +69,10 @@ public class ImageViewerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_imageviewer);
         onLaunchCamera();
         coordinates = (TextView) findViewById(R.id.coordinates);
+        addressText = (TextView) findViewById(R.id.addrTextView);
         uploadButton = (Button) findViewById(R.id.upload);
+        //storage = FirebaseStorage.getInstance();
+        //storageReference = storage.getReference();
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -63,6 +82,8 @@ public class ImageViewerActivity extends AppCompatActivity {
                 loclong = location.getLongitude();
                 loclad = location.getLatitude();
                 coordinates.append("\n " + loclad + " " + loclong);
+                getAddress(loclad, loclong);
+
             }
 
             @Override
@@ -122,24 +143,21 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     }
 
-    public void getPhoneModel() {
-
-        manufacturer = Build.MANUFACTURER;
-        model = Build.MODEL;
-        Log.i(TAG, "Phone model: " + manufacturer + " " + model);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                filePath = data.getData();
                 Bitmap photo = (Bitmap) data.getExtras().get("data");
+                setBitmap(photo);
                 imageView = findViewById(R.id.imageView);
                 imageView.setImageBitmap(photo);
+                //getAddress(loclad, loclong);
+                //testfilepath();
                 getPhoneModel();
                 pushDatabase();
-                
+
             }
         }
     }
@@ -175,6 +193,97 @@ public class ImageViewerActivity extends AppCompatActivity {
         String key = mDatabase.push().getKey(); // generate id for information uploaded
         mDatabase.push().setValue(userMap);
     }
+
+    public void getPhoneModel() {
+
+        manufacturer = Build.MANUFACTURER;
+        model = Build.MODEL;
+        Log.i(TAG, "Phone model: " + manufacturer + " " + model);
+    }
+
+    /*
+    public void uploadImage() {
+
+        if(filePath!=null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
+
+        }
+    }*/
+
+    public void testfilepath() {
+        if(filePath!=null) {
+            Log.i(TAG, "It is working");
+        }
+
+        else {
+            Log.i(TAG, "It is not working");
+        }
+    }
+
+    public static void setBitmap(Bitmap photo) {
+
+        /*
+        if(photo!=null) {
+            Log.i(TAG, "Image is not empty");
+        }
+        else{
+            Log.i(TAG, "Image is empty");
+        }*/
+
+        b = photo;
+    }
+
+    public static Bitmap getBitmap() {
+        return b;
+    }
+
+    public void setAddress(String finaladdress) {
+        this.finaladdress = finaladdress;
+    }
+
+    public static String getAddress() {
+        return finaladdress;
+    }
+
+    public void getAddress(double loclad, double loclong) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        //StringBuilder builder = new StringBuilder();
+        try {
+            List<Address> address = geocoder.getFromLocation(loclad, loclong, 1);
+
+            if(address!=null) {
+
+                String city = address.get(0).getAddressLine(0);
+                String state = address.get(0).getAdminArea();
+                finaladdress = city + " " + state;
+                setAddress(finaladdress);
+                Log.w(TAG, "Address: " + finaladdress);
+                addressText.setText(finaladdress);
+
+                /*
+                int maxLines = address.get(0).getMaxAddressLineIndex();
+                for (int i = 0; i < maxLines; i++) {
+                    String addressStr = address.get(0).getAddressLine(i);
+                    builder.append(addressStr);
+                    builder.append(" ");
+                }
+
+                String finaladdress = builder.toString();
+                Log.w(TAG, "Location Address: " + finaladdress);
+            } */
+            }
+
+            else{
+                Log.w(TAG, "Address is null");
+            }
+        }
+        catch (IOException e) { }
+        catch (NullPointerException e) { }
+    }
+
+
 
     }
 
