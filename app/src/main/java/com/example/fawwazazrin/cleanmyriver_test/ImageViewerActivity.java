@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -33,6 +34,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -56,11 +59,15 @@ public class ImageViewerActivity extends AppCompatActivity {
     private String manufacturer;
     private String model;
     private static String TAG = "MyActivity";
-    private Uri filePath;
+    private String filepath;
     private static Bitmap b;
     private static String finaladdress;
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    private double currentTime;
+    private File output;
+    public static String f;
+    //private boolean external;
+    //FirebaseStorage storage;
+    //StorageReference storageReference;
 
 
     @Override
@@ -130,14 +137,12 @@ public class ImageViewerActivity extends AppCompatActivity {
 
     public void onLaunchCamera() {
 
-        //currentTime = System.currentTimeMillis();
-        //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-        //StrictMode.setVmPolicy(builder.build());
-        //String fileName = "MY_APP" + currentTime + ".jpg";
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        //File dir = new File(Environment.getExternalStorageDirectory(), fileName);
-        //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(dir));
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        output = new File(dir, "CameraContent.jpeg");
+        filepath = output.getAbsolutePath();
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(output));
 
         startActivityForResult(intent, REQUEST_CODE);
 
@@ -148,13 +153,14 @@ public class ImageViewerActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                filePath = data.getData();
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                setBitmap(photo);
+
+                Bitmap photo = BitmapFactory.decodeFile(filepath);
+                //Bitmap photo = (Bitmap) data.getExtras().get("data");
+                //setBitmap(photo);
+                setFile(filepath);
                 imageView = findViewById(R.id.imageView);
                 imageView.setImageBitmap(photo);
                 //getAddress(loclad, loclong);
-                //testfilepath();
                 getPhoneModel();
                 pushDatabase();
 
@@ -212,33 +218,6 @@ public class ImageViewerActivity extends AppCompatActivity {
         }
     }*/
 
-    public void testfilepath() {
-        if(filePath!=null) {
-            Log.i(TAG, "It is working");
-        }
-
-        else {
-            Log.i(TAG, "It is not working");
-        }
-    }
-
-    public static void setBitmap(Bitmap photo) {
-
-        /*
-        if(photo!=null) {
-            Log.i(TAG, "Image is not empty");
-        }
-        else{
-            Log.i(TAG, "Image is empty");
-        }*/
-
-        b = photo;
-    }
-
-    public static Bitmap getBitmap() {
-        return b;
-    }
-
     public void setAddress(String finaladdress) {
         this.finaladdress = finaladdress;
     }
@@ -283,7 +262,13 @@ public class ImageViewerActivity extends AppCompatActivity {
         catch (NullPointerException e) { }
     }
 
+    public void setFile(String filepath) {
+        f = filepath;
+    }
 
+    public static String getFile() {
+        return f;
+    }
 
     }
 
