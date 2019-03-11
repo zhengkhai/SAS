@@ -44,32 +44,32 @@
         android:textColor="@color/colorText" />
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="156dp"
-        android:layout_height="257dp"
-        android:layout_alignStart="@+id/got_it"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="291dp"
-        android:contentDescription="TODO"
-        android:scaleType="fitStart"
 
-        android:src="@drawable/snapit" />
+        android:layout_width="wrap_content"
+        android:layout_height="222dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/snapit"
+        app:layout_constraintBottom_toTopOf="@+id/intro_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="162dp"
-        android:layout_height="307dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="118dp"
-        android:layout_marginLeft="118dp"
-        android:layout_marginBottom="168dp"
-        android:contentDescription="TODO"
-        android:scaleType="fitStart"
 
-        android:src="@drawable/snapit2" />
+        android:layout_width="wrap_content"
+        android:layout_height="222dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="32dp"
+        android:src="@drawable/snapit2"
+        app:layout_constraintBottom_toTopOf="@+id/intro_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"
