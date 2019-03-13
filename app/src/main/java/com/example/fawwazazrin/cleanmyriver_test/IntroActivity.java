@@ -17,8 +17,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-//if cant run, delete Introactivity on manifest
-
 public class IntroActivity extends AppCompatActivity {
 
     private ViewPager screenPager;
@@ -34,30 +32,31 @@ public class IntroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_intro);
 
         // make the activity on full screen
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-        // when this activity is about to be launch we need to check if its openened before or not
+//         when this activity is about to be launch we need to check if its openened before or not
 
-        if (restorePrefData()) {
+//        if (restorePrefData()) {
+//
+//            Intent mainActivity = new Intent(getApplicationContext(),MainActivity.class );
+//            startActivity(mainActivity);
+//            finish();
+//
+//
+//        }
 
-            Intent mainActivity = new Intent(getApplicationContext(),MainActivity.class );
-            startActivity(mainActivity);
-            finish();
 
-
-        }
-
-        setContentView(R.layout.activity_intro);
 
         // hide the action bar
 
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         // ini views
         btnNext = findViewById(R.id.btn_next);
@@ -69,9 +68,9 @@ public class IntroActivity extends AppCompatActivity {
         // fill list screen
 
         final List<ScreenItem> mList = new ArrayList<>();
-        mList.add(new ScreenItem("Did You Know?","The Rajang River stretches 350 miles from its source in the Iran Mountains to the South China Sea in Malaysia.",R.drawable.raft));
+        mList.add(new ScreenItem("Did You Know?","The Rajang River stretches 350 miles from its source in the Iran Mountains to the South China Sea in Malaysia.",R.drawable.envhelp));
         mList.add(new ScreenItem("STOP","Of the 189 main river basins in the country, 11 percent were considered polluted in 2017.",R.drawable.pollution));
-        mList.add(new ScreenItem("United we Stand","Together we can save our rivers",R.drawable.envhelp));
+        mList.add(new ScreenItem("United we Stand","Together we can save our rivers",R.drawable.raft));
 
         // setup viewpager
         screenPager =findViewById(R.id.screen_viewpager);
@@ -82,7 +81,7 @@ public class IntroActivity extends AppCompatActivity {
 
         tabIndicator.setupWithViewPager(screenPager);
 
-        // next button click Listener
+        // next button click Listner
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +97,8 @@ public class IntroActivity extends AppCompatActivity {
                 }
 
                 if (position == mList.size()-1) { // when we rech to the last screen
+
+                    // TODO : show the GETSTARTED Button and hide the indicator and the next button
 
                     loaddLastScreen();
 
@@ -149,6 +150,9 @@ public class IntroActivity extends AppCompatActivity {
 
                 Intent mainActivity = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(mainActivity);
+                // also we need to save a boolean value to storage so next time when the user run the app
+                // we could know that he is already checked the intro screen activity
+                // i'm going to use shared preferences to that process
                 savePrefsData();
                 finish();
 
@@ -174,8 +178,8 @@ public class IntroActivity extends AppCompatActivity {
 
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
-        Boolean isIntroActivityOpenedBefore = pref.getBoolean("isIntroOpened",false);
-        return  isIntroActivityOpenedBefore;
+        Boolean isIntroActivityOpnendBefore = pref.getBoolean("isIntroOpnend",false);
+        return  isIntroActivityOpnendBefore;
 
 
 
@@ -185,7 +189,7 @@ public class IntroActivity extends AppCompatActivity {
 
         SharedPreferences pref = getApplicationContext().getSharedPreferences("myPrefs",MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean("isIntroOpened",true);
+        editor.putBoolean("isIntroOpnend",true);
         editor.commit();
 
 
@@ -198,7 +202,7 @@ public class IntroActivity extends AppCompatActivity {
         btnGetStarted.setVisibility(View.VISIBLE);
         tvSkip.setVisibility(View.INVISIBLE);
         tabIndicator.setVisibility(View.INVISIBLE);
-
+        // TODO : ADD an animation the getstarted button
         // setup animation
         btnGetStarted.setAnimation(btnAnim);
 

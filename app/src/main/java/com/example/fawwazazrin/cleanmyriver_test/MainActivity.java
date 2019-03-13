@@ -43,14 +43,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        CardView history_button = (CardView) findViewById(R.id.history_button);
-        history_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HistoryActivity.class);
-                startActivity(intent);
-            }
-        });
 
         CardView help_button = (CardView) findViewById(R.id.help_button);
         help_button.setOnClickListener(new View.OnClickListener() {
