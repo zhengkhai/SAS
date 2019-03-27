@@ -15,7 +15,7 @@ import android.view.animation.AnimationUtils;
 
 public class DashboardFrag extends Fragment {
 
-    private CardView cardTop,cardRight,cardLeft,cardLeft2;
+    private CardView cardRight,cardLeft,cardLeft2;
 
 
 
@@ -57,7 +57,7 @@ public class DashboardFrag extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_dashboard, container, false);
         // card ini
-        cardTop = v.findViewById(R.id.cardTop);
+       // cardTop = v.findViewById(R.id.cardTop);
         cardRight = v.findViewById(R.id.cardRight);
         cardLeft = v.findViewById(R.id.cardLeft);
         cardLeft2 = v.findViewById(R.id.cardLeft2) ;
@@ -71,7 +71,7 @@ public class DashboardFrag extends Fragment {
 
         // setup Animation :
         cardLeft2.setAnimation(animeBottomToTop);
-        cardTop.setAnimation(animeTopToBottom);
+       // cardTop.setAnimation(animeTopToBottom);
         cardRight.setAnimation(animeRightToleft);
         cardLeft.setAnimation(animeLeftToRight);
 

@@ -4,62 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/btn_gradient_style"
     tools:context=".DashboardFrag">
 
 
-    <android.support.v7.widget.CardView
-
-        android:focusable="true"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"
-
-
+    <android.support.constraint.ConstraintLayout
 
         android:id="@+id/cardTop"
         android:layout_width="0dp"
         android:layout_height="205dp"
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
+        android:background="@drawable/btn_gradient_style"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/constraintLayout"
+            android:layout_width="368dp"
+            android:layout_height="224dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="384dp"
-                android:layout_height="111dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/env2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="84dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="5dp"
-                android:text="Clean your river is an software project that assist in an environmental research in University of Nottingham Malaysia Campus. With the possibility of using the least amount of investment and human resource, we collect  pictures and data of river to assist in analysis of river pollution level all over the Malaysia."
-                android:textSize="12sp"
+                android:layout_width="322dp"
+                android:layout_height="114dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginLeft="28dp"
+                android:layout_marginBottom="48dp"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center_horizontal"
+                android:padding="20dp"
+                android:text="Clean your river is an software project that assist in an environmental research in University of Nottingham Malaysia Campus."
+                android:textColor="@color/colorText"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:layout_constraintVertical_bias="0.921" />
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="189dp"
+                android:layout_height="36dp"
+                android:fontFamily="@font/roboto_light"
+                android:gravity="center_horizontal"
+                android:text="About"
+                android:textColor="@color/colorText"
+                android:textSize="30dp"
+                tools:layout_editor_absoluteX="90dp"
+                tools:layout_editor_absoluteY="16dp" />
         </android.support.constraint.ConstraintLayout>
 
 
-
-
-    </android.support.v7.widget.CardView>
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.CardView
 
@@ -79,7 +90,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/cardTop" >
+        app:layout_constraintTop_toBottomOf="@+id/cardTop"
+        app:cardCornerRadius="20dp">
+
 
 
         <LinearLayout
@@ -87,18 +100,19 @@
             android:layout_height="match_parent"
             android:weightSum="6"
             android:orientation="vertical"
-            android:layout_gravity="center"
-            >
+            android:layout_gravity="center">
 
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="7dp"
                 android:layout_weight="3"
                 android:gravity="center_horizontal|center"
                 android:lineSpacingExtra="12dp"
-                android:padding="4dp"
-                android:text="Researcher: Dr.Christopher Gibbins  Supervisor: Dr.Chong Siang Yew                    Created by Software Engineering Group F Year 2 (2019)" />
+                android:text="Supervisor: Dr.Chong Siang Yew                                            Created by Software Engineering Group F Year 2 (2018/2019)"
+
+
+                android:textColor="@color/title" />
 
 
 
@@ -113,9 +127,6 @@
 
         </LinearLayout>
 
-
-
-
     </android.support.v7.widget.CardView>
 
     <android.support.constraint.Guideline
@@ -126,22 +137,24 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <android.support.v7.widget.CardView
-        android:focusable="true"
-        android:clickable="true"
-        android:foreground="?attr/selectableItemBackground"
-
         android:id="@+id/cardLeft"
         android:layout_width="0dp"
         android:layout_height="0dp"
+
         android:layout_marginStart="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toTopOf="@+id/cardLeft2"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardTop" >
+        app:layout_constraintTop_toBottomOf="@+id/cardTop">
 
 
         <LinearLayout
@@ -152,31 +165,18 @@
 
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="64dp"
+                android:layout_width="171dp"
+                android:layout_height="48dp"
                 android:src="@drawable/support" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Need Help?"
+                android:layout_width="158dp"
+                android:layout_height="87dp"
+                android:text="Researchers :                Dr. Christopher Gibbins                                         ------*------                         Alexander Lechner "
                 android:textStyle="bold" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="33dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="#26e3d4"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="CONTACT US"
-                android:textColor="#fff" />
 
 
         </LinearLayout>
-
-
 
 
     </android.support.v7.widget.CardView>
@@ -199,7 +199,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardLeft" >
+        app:layout_constraintTop_toBottomOf="@+id/cardLeft"
+        app:cardCornerRadius="20dp">
+
 
         <LinearLayout
 
@@ -219,6 +221,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Take Care Our Earth"
+                android:textColor="@color/title"
+
                 android:textStyle="bold" />
 
             <TextView
@@ -227,6 +231,8 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:lineSpacingExtra="6dp"
+                android:textColor="@color/title"
+
                 android:text="The little effort of everyone may change into big one!" />
 
 
